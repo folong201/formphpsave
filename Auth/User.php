@@ -14,7 +14,8 @@ class User{
         $this->conn = $service->connection();
     }
 
-    public function register($username,$password,$email){
+    public function register($username,$email,$password){
+        //verifier s'il ny a pas deja un utilisateru aavec cet adresse email
         $sql = "INSERT INTO users(username,email,password) VALUES(?,?,?)";
         $req = $this->conn->prepare($sql);
         $req->bindParam(1,$username);
@@ -23,16 +24,19 @@ class User{
        return $req->execute();
     }
     function login($email,$password){
-        $sql = "SELECT FROM users WHERE email = ? AND password = ? LIMIT 1";
-        $req = $this->conn->prepare($sql);
-        $req->bindParam(1,$email);
-        $req->bindParam(2,$password);
+        $sql = "SELECT * FROM users ";
+        $req = $this->conn->prepare($sql); 
+        
         $req->execute();
-        while ($row = $req->fetch()) {
-            return $row;
-        }
 
+        while ($row = $req->fetch()) {
+            
+            if ($row['email']==$email && $row['password']==$password) {
+                return $row;
+            }
+        }
         return null;
+
     }
 
 }

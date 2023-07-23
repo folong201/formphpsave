@@ -3,11 +3,14 @@ session_start();
 include("User.php");
 if ($_SERVER['REQUEST_METHOD']=="POST") {
     $user =  new User();
-   $row =  $use->login($_POST['email'],$_POST['password']);
+   $row =  $user->login($_POST['email'],$_POST['password']);
    if ($row!=null) {
     //configurer la session
-
+    $_SESSION['username'] = $row['username'];
+        $_SESSION['email'] = $row['email'];
+        $_SESSION['isAuth'] = true;
     //rediriger ver la pasge index
+    header("Location: index.php");
    }
 }
 

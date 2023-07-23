@@ -4,7 +4,7 @@ class Chat{
     private $sender;
     private $content;
     private $conn;
-     public function __construct($sender,$content) {
+     public function __construct($sender=null,$content=null) {
         $this->sender = $sender;
         $this->content = $content;
         $db = new DbService();
@@ -20,7 +20,7 @@ class Chat{
             header("location: index.php");
         }
     }
-    function lire(){
+     function lire(){
         $sql = "SELECT * FROM messages";
         $result = $this->conn->query($sql);
         return $result;

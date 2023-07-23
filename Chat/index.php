@@ -1,14 +1,11 @@
 <?php
-    include("Chat.php");
-    if ($_SERVER['REQUEST_METHOD'] == "POST") {
-        $user =  new Chat($_POST['sender'],$_POST['content']);
-        $row =  $use->login($_POST['email'], $_POST['password']);
-        if ($row != null) {
-            //configurer la session
-
-            //rediriger ver la pasge index
-        }
-    }
+include("Chat.php");
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+    $chat =  new Chat($_POST['sender'], $_POST['content']);
+    $chat->save();
+}
+$user =  new Chat();
+$messages = $user->lire();
 
 ?>
 
@@ -28,15 +25,25 @@
             Message Pages
         </h2>
     </center>
+    <form action="index.php" method="post">
+        <div class="container">
+            <div class="mb-3">
+                <label for="exampleFormControlInput1" class="form-label">sender</label>
+                <input type="text" name="sender" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+            </div>
+            <div class="mb-3">
+                <label for="exampleFormControlTextarea1" class="form-label">Message</label>
+                <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+        </div>
+        <input type="submit" value="Save" class="btn btn-primary form-control">
+    </form>
     <div class="container">
-        <div class="mb-3">
-            <label for="exampleFormControlInput1" class="form-label">sender</label>
-            <input type="text" name="sender" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
-        </div>
-        <div class="mb-3">
-            <label for="exampleFormControlTextarea1" class="form-label">Message</label>
-            <textarea name="content" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-        </div>
+    <?php
+    while ($message = $messages->fetch()) {
+        echo $message['sender']." : ". $message['content'] ."<br>";
+    }
+    ?>
     </div>
 </body>
 

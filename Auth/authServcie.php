@@ -5,4 +5,7 @@ class Auth{
             header("Location:login.php");
         }
     }
+    function logout(){
+        
+    }
 }

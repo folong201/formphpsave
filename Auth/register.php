@@ -1,12 +1,17 @@
 <?php
+session_start();
 include("User.php");
     if ($_SERVER['REQUEST_METHOD'] == "POST") {
         $user =  new User();
-        $ok =  $use->register($_POST['username'],$_POST['email'], $_POST['password']);
-        if ($ok != null) {
+        $ok =  $user->register($_POST['username'],$_POST['email'], $_POST['password']);
+        if ($ok) {
             //configurer la session
+            $_SESSION['username'] = $_POST['username'];
+            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['isAuth'] = true;
 
             //rediriger ver la pasge index
+            header("Location: index.php");
         }
     }
 
@@ -30,7 +35,7 @@ include("User.php");
     </center>
     <div class="container">
 
-        <form action="traitement.php" method="post">
+        <form action="register.php" method="post">
             <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Username</label>
             <input type="text" name="username" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">

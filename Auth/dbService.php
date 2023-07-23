@@ -5,7 +5,7 @@ class DbService{
         $usename = "root";
         $password = "";
         $serverName = "localhost";
-        $dbName = "auth";
+        $dbName = "application";
         try {
             $conn = new PDO("mysql:host=$serverName;dbname=$dbName",$usename,$password);
             return $conn;
